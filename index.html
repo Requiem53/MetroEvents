@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <script src="script.js" defer></script>
+    <link rel="stylesheet" href="style.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Forums</title>
+</head>
+<body>
+    <h1>Metro Events</h1>
+
+    <div id="registerFront">
+        <p style="font-size: 22px; font-weight: bold;">Register</p>
+        <input type="text" id="rFirstName" val="" placeholder="First Name" style="font-size: 22px;">
+        <input type="text" id="rLastName" val="" placeholder="Last Name" style="font-size: 22px;">
+        <input type="text" id="rUserName" val="" placeholder="Username" style="font-size: 22px;">
+        <button class="important" type="button" id="createUser" style="font-size: 22px;">Create User</button>
+        <button id="loginer"><div id="registerJump" style="font-size: 22px;">or login by clicking here instead</div></button>
+    </div>
+
+    <div id="loginFront">
+        <p id="loginText">Login</p>
+        <input type="text" id="lUserName" val="" placeholder="Username" style="font-size: 22px;">
+        <button class="important" type="button" id="login" style="font-size: 22px;">Login</button>
+        <button id="registerer"><div id="registerJump" style="font-size: 22px;">or register by clicking here instead</div></button>
+    </div>
+
+    <div id="inProgress">
+        <button id="logout" type="button">Logout</button>
+        <div id="currPage">Current Page: 1</div>
+        <div class="welp">
+            <button class="prevnext" type="button" id="prevPage">Previous Page</button>
+            <button class="prevnext" type="button" id="nextPage">Next Page</button>
+        </div>
+        
+        <button class="newPoster" type="button" id="newPost">Create New Post And Click Here</button>
+        <input class="newPostbox" type="text" id="newPostText" val="" placeholder="Type your ideas here....">
+        <div id="posts"></div>
+    </div>
+</body>
+</html>

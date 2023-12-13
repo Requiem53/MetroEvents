@@ -1,0 +1,214 @@
+@import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;700&display=swap');
+
+*{
+    font-family: 'Open Sans';
+    background-color: rgb(223, 255, 255);
+    
+}
+
+body{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.important:hover{
+    background-color: yellow;
+}
+
+.inputReply{
+    width: 100%;
+}
+
+.deleter{
+    display: inline;
+    margin-left: auto;
+}
+
+.deleter:hover{
+    background-color: rgb(255, 124, 124);
+}
+
+#loginFront{
+    font-size: 22px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    font-size: 22px;
+}
+
+#registerFront{
+    font-size: 22px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+}
+
+#registerJump{
+    font-weight: 300;
+    font-style: italic;
+}
+
+#loginText{
+    font-size: 22px;
+    font-weight: bold;
+}
+
+.welp{
+    display: flex;
+    flex-direction: row;
+    margin-left: 25%;
+    margin-right: 25%;
+    margin-bottom: 10px;
+}
+
+.prevnext{
+    padding: 5px;
+    border: solid 2px black;
+    display: block;
+    word-break: break-word;
+    font-size: 22px;
+    width: 100%;
+    margin: 10px;
+}
+
+#logout{
+    padding: 5px;
+    border: solid 2px black;
+    font-size: 22px;
+    width: 20%;
+    margin-left: 40%;
+    margin-bottom: 20px;
+}
+
+#logout:hover{
+    background-color: rgb(255, 124, 124);
+}
+
+.prevnext:hover{
+    background-color: lightyellow;
+}
+
+#currPage{
+    display: flex;
+    justify-content: center;
+    font-size: 22px;
+}
+#nextPage{
+    margin-left: auto;
+}
+
+#registerJump:hover{
+    color:blue;
+}
+
+#registerer{
+    border: none;
+}
+
+#loginer{
+    border: none;
+}
+
+#inProgress{
+    display: flex;
+    flex-direction: column;
+    width: 40%;
+}
+
+.newPoster{
+    font-size: 22px;
+}
+
+.newPostbox{
+    margin-bottom: 20px;
+    padding: 5px;
+    border: solid 2px black;
+    border-top: 0;
+    display: block;
+    word-break: break-word;
+    font-size: 22px;
+}
+
+.newPoster:hover{
+    background-color: lightyellow;
+}
+
+#posts{
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    justify-content: center;
+    width: 100%;
+
+}
+
+.indivPost{
+    padding: 5px;
+    border: solid 2px black;
+    display: block;
+    word-break: break-word;
+}
+
+.inputter{
+    padding: 5px;
+    border: solid 2px black;
+    width: 60%;
+    font-size: 18px;
+}
+
+.replyer:hover{
+    background-color: lightyellow;
+}
+
+.postItself{
+    word-wrap: break-word;
+}
+
+.date{
+    display: flex;
+    justify-content: space-between;
+    font-weight: 300;
+    font-style: italic;
+}
+
+.wholePost{
+    padding: 15px;
+    font-size: 22px;
+    border: solid 2px;
+    margin-bottom: 10px;
+}
+
+.wholeReply{
+    padding: 10px;
+    font-size: 20px;
+}
+
+.replies{
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-left: 20%;
+    margin-right: 20%;
+}
+
+.poster{
+    display: flex;
+    justify-content: space-between;
+}
+
+.posterCode{
+    text-align: right;
+    display: inline;
+    font-weight: 300;
+    font-style: italic;
+}
+
+#inProgress{
+    display: flex;
+}
