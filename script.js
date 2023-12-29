@@ -18,8 +18,8 @@ $(document).ready(function(){
         $("#registerFront").hide()
         $("#inProgress").show()
     }else{
-        $("#loginFront").hide()
-        $("#registerFront").show()
+        $("#loginFront").show()
+        $("#registerFront").hide()
         $("#inProgress").hide()
     }
 
@@ -68,26 +68,36 @@ $(document).ready(function(){
         const rLastName = $("#rLastName").val();
         const rUserName = $("#rUserName").val();
 
+        if (rFirstName === "" || rLastName === "" || rUserName === "") {
+            alert("Please fill in all the details");
+            return;
+        }
+
         $.ajax({
             type: "POST",
-            url: "http://hyeumine.com/forumCreateUser.php",
+            url: "http://hyeumine.com/DL0wgqiJ/Luab/MetroEvents/scripts/userRegistration.php",
             data: {
-                firstName : rFirstName,
-                lastName : rLastName,
-                username : rUserName
+                firstname : rFirstName,
+                lastname : rLastName,
+                username : rUserName,
+                role : "user"
             },
             success: (data) => {
-                data = JSON.parse(data);
-                console.log(data)
-                userID = data.id
-                localStorage.setItem("currUser", JSON.stringify(data));
-                localStorage.setItem("loggedIn", "true");
-                localStorage.setItem("currPage", currPage);
-                // lastPage();
-                getPost(currPage);
-                $("#registerFront").hide()
-                $("#inProgress").show()
-                showPosts(posts);
+                if(data.success == true){
+                    data = JSON.stringify(data);
+                    data = JSON.parse(data);
+                    console.log(data)
+                    userID = data.user.uid
+                    // localStorage.setItem("currUser", JSON.stringify(data));
+                    // localStorage.setItem("loggedIn", "true");
+                    // localStorage.setItem("currPage", currPage);
+                    alert("Welcome to Metro Events!")
+                    $("#registerFront").hide()
+                    $("#inProgress").show()
+                    // showPosts(posts);
+                }else{
+                    alert(data.message)
+                }
             },
             error: function(xhr, status, error) {
                 var err = eval("An error has occured" + "(" + xhr.responseText + ")");
