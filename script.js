@@ -4,24 +4,11 @@ let userID
 let loginStatus
 
 $(document).ready(function(){
-    loginStatus = localStorage.getItem("loggedIn");
+
+    $("#loginFront").show()
+    $("#registerFront").hide()
+    $("#inProgress").hide()
     
-    if(loginStatus == "true"){
-        const currUser = JSON.parse(localStorage.getItem("currUser"))
-        userID = currUser.id
-        console.log(userID)
-        currPage = localStorage.getItem("currPage")
-        // lastPage();
-        getPost(currPage);
-        showPosts(posts);
-        $("#loginFront").hide()
-        $("#registerFront").hide()
-        $("#inProgress").show()
-    }else{
-        $("#loginFront").show()
-        $("#registerFront").hide()
-        $("#inProgress").hide()
-    }
 
     $("#logout").click(function(){
         localStorage.clear();
@@ -40,28 +27,6 @@ $(document).ready(function(){
         $("#loginFront").show()
         $("#registerFront").hide()
     });
-
-    $("#prevPage").click(function(){
-        if(currPage > 1){
-            getPost(currPage-1);
-            if(posts.length > 0){
-                document.querySelectorAll('.wholePost').forEach(e => e.remove());
-                showPosts(posts);
-                currPage--;
-            }
-        }
-        document.getElementById("currPage").innerHTML = `Current Page: ${currPage}`
-    })
-
-    $("#nextPage").click(function(){
-        getPost(currPage+1);
-            if(posts.length > 0){
-                document.querySelectorAll('.wholePost').forEach(e => e.remove());
-                showPosts(posts);
-                currPage++;
-            }
-        document.getElementById("currPage").innerHTML = `Current Page: ${currPage}`
-    })
 
     $("#createUser").click(function(){
         const rFirstName = $("#rFirstName").val();
@@ -88,13 +53,12 @@ $(document).ready(function(){
                     data = JSON.parse(data);
                     console.log(data)
                     userID = data.user.uid
-                    // localStorage.setItem("currUser", JSON.stringify(data));
-                    // localStorage.setItem("loggedIn", "true");
-                    // localStorage.setItem("currPage", currPage);
+                    localStorage.setItem("currUser", JSON.stringify(data));
+                    localStorage.setItem("loggedIn", "true");
                     alert("Welcome to Metro Events!")
                     $("#registerFront").hide()
                     $("#inProgress").show()
-                    // showPosts(posts);
+                    showPosts(posts);
                 }else{
                     alert(data.message)
                 }
@@ -110,23 +74,23 @@ $(document).ready(function(){
         const lUserName = $("#lUserName").val();
         $.ajax({
             type: "POST",
-            url: "http://hyeumine.com/forumLogin.php",
+            url: "https://hyeumine.com/DL0wgqiJ/Luab/MetroEvents/scripts/userLogin.php",
             data: {
                 username : lUserName
             },
             success: (data) => {
-                data = JSON.parse(data);
-                console.log(data)
                 if(data.success == false){
                     alert("Error: User may not exist. Register instead");
                 }else{
+                    data = JSON.stringify(data);
+                    data = JSON.parse(data);
+                    console.log(data)
                     userID = data.user.id
                     localStorage.setItem("currUser", JSON.stringify(data));
                     localStorage.setItem("loggedIn", "true");
                     localStorage.setItem("currPage", currPage);
                     console.log(userID)
                     // lastPage();
-                    getPost(currPage);
                     $("#loginFront").hide();
                     $("#inProgress").show();
                     showPosts(posts);
@@ -160,6 +124,40 @@ $(document).ready(function(){
         });
     });
 });
+
+function showPosts(){
+    let posts
+
+    $.ajax({
+        type: "GET",
+        async: false,
+        url: `https://hyeumine.com/DL0wgqiJ/Luab/MetroEvents/scripts/getPosts.php`,
+        success: (data) => {
+            data = JSON.stringify(data)
+            data = JSON.parse(data)
+            posts = data
+            console.log(posts)
+        },
+        error: function(xhr, status, error) {
+            var err = eval("An error has occured" + "(" + xhr.responseText + ")");
+            alert(err.Message);
+        }
+    });
+
+    $("#posts").html("");
+    posts.forEach((post) => {
+        $("#posts").append(`
+            <div class="wholePost" id="wh${post.postid}">
+                <div class="poster">${post.user} posted: <div class="posterCode">User Code: ${post.uid}</div></div>
+                <div class="indivPost">
+                    <div class="postItself">${post.eventdetails}</div>
+                </div>
+                <div class="date">${post.postdate} <div class="posterCode">Post Code: ${post.postid}</div></div>
+            </div> 
+        `);
+    });
+}
+
 function replyPost(code){
     const replyCode = code;
     const replyMsg = $(`#pr${replyCode}`).val();
@@ -226,56 +224,3 @@ function deleteReply(code){
         }
     });
 };
-
-function getPost(page){
-    $.ajax({
-        type: "GET",
-        async: false,
-        url: `http://hyeumine.com/forumGetPosts.php?page=${page}`,
-        success: (data) => {
-            posts = JSON.parse(data)
-            console.log(posts)
-        },
-        error: function(xhr, status, error) {
-            var err = eval("An error has occured" + "(" + xhr.responseText + ")");
-            alert(err.Message);
-        }
-    });
-}
-
-function showPosts(posts){
-    $("#posts").html("");
-    posts.forEach((post) => {
-        $("#posts").append(`
-            <div class="wholePost" id="wh${post.id}">
-                <div class="poster">${post.user} posted: <div class="posterCode">User Code: ${post.uid}</div></div>
-                <div class="indivPost">
-                    <div class="postItself">${post.post}</div>
-                </div>
-                <div class="date">${post.date} <div class="posterCode">Post Code: ${post.id}</div></div>
-                <input class="inputter" type="text" id="pr${post.id}" val="" placeholder="Enter reply">
-                <button class="replyer" type="button" onclick="replyPost(${post.id})">Reply to Post</button>
-                <button class="deleter" type="button" onclick="deletePost(${post.id})">Delete Post</button>
-                <div class="replies" id=${post.id}></div>
-            </div> 
-        `);
-
-        if(post.reply != undefined){
-            let replies = post.reply;
-
-            replies.forEach((reply) => {
-                $(`#${post.id}`).append(`
-                    <div class="wholeReply" id="re${reply.id}">
-                        <div class="poster">${reply.user} replied: <div class="posterCode">User Code: ${post.uid}</div></div>
-                        <div class="indivPost">
-                            <div class="replyItself">${reply.reply}</div>
-                        </div>
-                        <div class="date">${reply.date} <div class="posterCode">Reply Code: ${reply.id}</div></div>
-                        <button class="deleter" type="button" onclick="deleteReply(${reply.id})">Delete Reply</button>
-                    </div>
-                `)
-            });
-        }
-        
-    });
-}
