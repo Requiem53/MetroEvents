@@ -13,6 +13,82 @@ body{
     align-items: center;
 }
 
+/*post*/
+.wholePost{
+    padding: 15px;
+    font-size: 22px;
+    border: solid 2px;
+    margin-bottom: 10px;
+    width: 97%;
+
+    display: flex;
+    flex-direction: column;
+}
+
+.eventTitle{
+    text-align: center;
+    font-size: 30px;
+    font-weight: bold;
+    border: solid 2px;
+    padding: 2px;
+}
+
+.eventDetails{
+    text-align: justify;
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+.eventAuxi{
+    font-weight: 100;
+}
+
+.activityZone{
+    display: flex;
+    gap:68%;
+    border: solid 2px;
+    padding: 4px;
+    padding-left: 10px;
+    margin-top: 10px;
+}
+
+.reviewsArea{
+    border: solid 2px;
+    padding: 4px;
+    padding-left: 10px;
+    margin-top: 10px;
+}
+
+.review{
+    padding: 10px;
+}
+
+.reviewer{
+    font-weight: 200;
+}
+
+.sendReviewArea{
+    display: flex;
+    flex-direction: column;
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+
+#newReview{
+    font-size: 24px;
+    border-bottom: none;
+}
+
+#newReview:hover{
+    background-color: yellow;
+}
+
+#newReviewText{
+    font-size: 22px;
+    padding: 6px;
+}
+
+/*post*/
 .important:hover{
     background-color: yellow;
 }
@@ -118,11 +194,12 @@ body{
 #inProgress{
     display: flex;
     flex-direction: column;
-    width: 40%;
+    width: 60%;
 }
 
 .newPoster{
     font-size: 22px;
+    width: 100%;
 }
 
 .newPostbox{
@@ -175,13 +252,6 @@ body{
     justify-content: space-between;
     font-weight: 300;
     font-style: italic;
-}
-
-.wholePost{
-    padding: 15px;
-    font-size: 22px;
-    border: solid 2px;
-    margin-bottom: 10px;
 }
 
 .wholeReply{

@@ -85,7 +85,7 @@ $(document).ready(function(){
                     data = JSON.stringify(data);
                     data = JSON.parse(data);
                     console.log(data)
-                    userID = data.user.id
+                    userID = data.user.uid
                     localStorage.setItem("currUser", JSON.stringify(data));
                     localStorage.setItem("loggedIn", "true");
                     localStorage.setItem("currPage", currPage);
@@ -135,25 +135,49 @@ function showPosts(){
         success: (data) => {
             data = JSON.stringify(data)
             data = JSON.parse(data)
+            console.log(data)
             posts = data
-            console.log(posts)
         },
-        error: function(xhr, status, error) {
+        error: function(xhr) {
             var err = eval("An error has occured" + "(" + xhr.responseText + ")");
             alert(err.Message);
         }
     });
 
+    console.log(posts)
+
     $("#posts").html("");
     posts.forEach((post) => {
         $("#posts").append(`
-            <div class="wholePost" id="wh${post.postid}">
-                <div class="poster">${post.user} posted: <div class="posterCode">User Code: ${post.uid}</div></div>
-                <div class="indivPost">
-                    <div class="postItself">${post.eventdetails}</div>
+        <div class="wholePost" id="wh${post.postid}">
+            <div class="eventTitle">${post.eventname}</div>
+            <div class="eventInformation">
+                <div class="eventDetails">${post.eventdetails}</div>
+                <div class="eventAuxi">
+                    <div class="eventOrganizer">Event Organizer: ${post.eventorganizer.firstname} ${post.eventorganizer.lastname}</div>
+                    <div class="eventDate">Event Date: ${post.eventdate}</div>
+                    <div class="postDate">Posted in: ${post.date}</div>
                 </div>
-                <div class="date">${post.postdate} <div class="posterCode">Post Code: ${post.postid}</div></div>
-            </div> 
+            </div>
+            <div class="activityZone">
+                <div class="upvoteArea">
+                    <button class="activityButton" type="button" id="upvotePost">Upvote</button>
+                    <div class="upvotes">Upvotes: ${post.postvote[0]}</div>
+                </div>
+                <div class="participantArea">
+                    <button class="activityButton" type="button" id="participatePost">Participate</button>
+                    <div class="participants">Participants: ${Object.keys(post.participants).length}</div>
+                </div>
+            </div>
+
+            <div class="sendReviewArea">
+                <button type="button" id="newReview">Send a review</button>
+                <input type="text" id="newReviewText" val="" placeholder="Type your review here....">
+            </div>
+
+            <div class="reviewsArea">
+            </div>
+        </div>
         `);
     });
 }
