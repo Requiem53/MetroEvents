@@ -5,11 +5,22 @@ let currUser
 let loginStatus
 
 $(document).ready(function(){
-
-    $("#loginFront").show()
-    $("#registerFront").hide()
-    $("#mainScene").hide()
+    loginStatus = localStorage.getItem("loggedIn");
     
+    if(loginStatus == "true"){
+        currUser = JSON.parse(localStorage.getItem("currUser"))
+        userID = currUser.uid
+
+        $("#loginFront").hide()
+        $("#registerFront").hide()
+        $("#mainScene").show()
+
+        showPosts()
+    }else{
+        $("#loginFront").show()
+        $("#registerFront").hide()
+        $("#mainScene").hide()
+    }
 
     $("#createPostArea").hide()
 
@@ -52,20 +63,8 @@ $(document).ready(function(){
             },
             success: (data) => {
                 if(data.success == true){
-                    data = JSON.stringify(data);
-                    data = JSON.parse(data);
-                    console.log(data) 
-                    currUser = data.user
-                    userID = data.user.uid
-                    localStorage.setItem("currUser", JSON.stringify(data));
-                    localStorage.setItem("loggedIn", "true");
-                    alert("Welcome to Metro Events!")
+                    loginProcess(data)
                     $("#registerFront").hide()
-                    $("#mainScene").show()
-                    
-                    showRoleSpecific(data.user.role)
-
-                    showPosts(posts);
                 }else{
                     alert(data.message)
                 }
@@ -89,21 +88,8 @@ $(document).ready(function(){
                 if(data.success == false){
                     alert("Error: User may not exist. Register instead");
                 }else{
-                    data = JSON.stringify(data);
-                    data = JSON.parse(data);
-                    console.log(data)
-                    currUser = data.user
-                    userID = data.user.uid
-                    localStorage.setItem("currUser", JSON.stringify(data));
-                    localStorage.setItem("loggedIn", "true");
-                    localStorage.setItem("currPage", currPage);
-                    console.log(userID)
+                    loginProcess(data)
                     $("#loginFront").hide();
-                    $("#mainScene").show();
-
-                    showRoleSpecific(data.user.role)
-
-                    showPosts(posts);
                 }
             },
             error: function(xhr, status, error) {
@@ -151,6 +137,20 @@ $(document).ready(function(){
         $("#createPostArea").toggle()
     });
 });
+function loginProcess(data){
+    data = JSON.stringify(data);
+    data = JSON.parse(data);
+    console.log(data) 
+    currUser = data.user
+    userID = data.user.uid
+    localStorage.setItem("currUser", JSON.stringify(data.user));
+    localStorage.setItem("loggedIn", "true");
+    alert("Welcome to Metro Events!")
+    showRoleSpecific(data.user.role)
+    showPosts();
+    $("#mainScene").show()
+}
+
 
 function showPosts(){
     let posts
@@ -186,12 +186,12 @@ function showPosts(){
             </div>
             <div class="activityZone">
                 <div class="upvoteArea">
-                    <button class="activityButton" type="button" id="upvotePost" onclick="upvotePost(${post.postid})">Upvote</button>
-                    <div class="upvotes">Upvotes: ${post.postvote}</div>
+                    <button class="upvoteButton" type="button" onclick="upvotePost(${post.postid}, ${post.postvote})">Upvote</button>
+                    <div class="upvotes" id="upvotes${post.postid}">Upvotes: ${Object.keys(post.postvote).length}</div>
                 </div>
                 <div class="participantArea">
-                    <button class="activityButton" type="button" id="participatePost" onclick="participatePost(${post.postid})">Participate</button>
-                    <div class="participants">Participants: ${Object.keys(post.participants).length}</div>
+                    <button class="participateButton" type="button" onclick="participatePost(${post.postid})">Participate</button>
+                    <div class="participants" id="participatePost${post.postid}">Participants: ${Object.keys(post.participants).length}</div>
                 </div>
             </div>
 
@@ -206,10 +206,10 @@ function showPosts(){
         `);
     });
 }
-function participatePost(code){
+function participatePost(post){
     $.get("https://hyeumine.com/DL0wgqiJ/Luab/MetroEvents/scripts/upvotePost.php",
     {
-        postid : code,
+        postid : post.postid,
         userid : userID
     },
     function(data){
@@ -224,19 +224,24 @@ function participatePost(code){
 );
 }
 
-function upvotePost(code){
+function upvotePost(post, numOfUpvotes){
+
     $.get("https://hyeumine.com/DL0wgqiJ/Luab/MetroEvents/scripts/upvotePost.php",
         {
-            postid : code,
+            postid : post,
             userid : userID
         },
         function(data){
             if(data.success == true){
-                alert("Successfully upvoted! Refresh page to see")
-                console.log(data)
+                alert(data.message)
+                var upvoteID = "upvotes" + post
+
+                if(data.message === "Removed upvote"){
+                    document.getElementById(upvoteID).innerHTML = "Upvotes: " + Object.keys(numOfUpvotes).length
+                }
+                  
             }else{
                 alert(data.message)
-                console.log(data)
             }
         }
     );

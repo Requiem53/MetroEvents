@@ -52,7 +52,11 @@ body{
     margin-top: 10px;
 }
 
-.activityButton:hover{
+.upvoteButton:hover{
+    background-color: yellow;
+}
+
+.participateButton:hover{
     background-color: yellow;
 }
 
