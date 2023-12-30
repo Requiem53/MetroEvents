@@ -19,7 +19,7 @@ body{
     font-size: 22px;
     border: solid 2px;
     margin-bottom: 10px;
-    width: 97%;
+    width: 97.6%;
 
     display: flex;
     flex-direction: column;
@@ -50,6 +50,10 @@ body{
     padding: 4px;
     padding-left: 10px;
     margin-top: 10px;
+}
+
+.activityButton:hover{
+    background-color: yellow;
 }
 
 .reviewsArea{
@@ -89,6 +93,91 @@ body{
 }
 
 /*post*/
+
+#mainScene{
+    display: flex;
+    width: 100%;
+}
+
+.notifHeader{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 20%;
+    margin-left: 35px;
+    position: sticky;
+}
+
+.notifArea{
+    width: 90%;
+    border: 2px solid;
+    height: 60%;
+    margin-top: 10px;
+    position: static;
+}
+
+.notificationHeaderText{
+    font-size: 25px;
+    font-weight: bold;
+}
+
+#inProgress{
+    display: flex;
+    flex-direction: column;
+    width: 75%;
+    gap: 10px;
+}
+
+.infoHeader{
+    font-size: 20px;
+}
+
+.newPoster{
+    font-size: 22px;
+    width: 100%;
+}
+
+#eventDateInfo{
+    width: 20%;
+}
+
+#newPost{
+    width: 10%;
+}
+
+.newPostbox{
+    margin-bottom: 10px;
+    padding: 5px;
+    border: solid 2px black;
+    display: block;
+    word-break: break-word;
+    font-size: 22px;
+}
+
+.newPoster:hover{
+    background-color: lightyellow;
+}
+
+#eventDetailsInfo{
+    height: 400px;
+    width: 60%;
+}
+
+#eventTitleInfo{
+    width: 60%;
+}
+
+
+
+
+
+
+
+
+
+
+
+
 .important:hover{
     background-color: yellow;
 }
@@ -157,9 +246,8 @@ body{
     padding: 5px;
     border: solid 2px black;
     font-size: 22px;
-    width: 20%;
-    margin-left: 40%;
-    margin-bottom: 20px;
+    width: 40%;
+    margin-top: 10px;
 }
 
 #logout:hover{
@@ -189,31 +277,6 @@ body{
 
 #loginer{
     border: none;
-}
-
-#inProgress{
-    display: flex;
-    flex-direction: column;
-    width: 60%;
-}
-
-.newPoster{
-    font-size: 22px;
-    width: 100%;
-}
-
-.newPostbox{
-    margin-bottom: 20px;
-    padding: 5px;
-    border: solid 2px black;
-    border-top: 0;
-    display: block;
-    word-break: break-word;
-    font-size: 22px;
-}
-
-.newPoster:hover{
-    background-color: lightyellow;
 }
 
 #posts{
@@ -279,6 +342,3 @@ body{
     font-style: italic;
 }
 
-#inProgress{
-    display: flex;
-}

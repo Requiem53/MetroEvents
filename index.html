@@ -11,6 +11,46 @@
 <body>
     <h1>Metro Events</h1>
 
+    <div id="registerFront">
+        <p style="font-size: 22px; font-weight: bold;">Register</p>
+        <input type="text" id="rFirstName" val="" placeholder="First Name" style="font-size: 22px;">
+        <input type="text" id="rLastName" val="" placeholder="Last Name" style="font-size: 22px;">
+        <input type="text" id="rUserName" val="" placeholder="Username" style="font-size: 22px;">
+        <button class="important" type="button" id="createUser" style="font-size: 22px;">Create User</button>
+        <button id="loginer"><div id="registerJump" style="font-size: 22px;">or login by clicking here instead</div></button>
+    </div>
+
+    <div id="loginFront">
+        <p id="loginText">Login</p>
+        <input type="text" id="lUserName" val="" placeholder="Username" style="font-size: 22px;">
+        <button class="important" type="button" id="login" style="font-size: 22px;">Login</button>
+        <button id="registerer"><div id="registerJump" style="font-size: 22px;">or register by clicking here instead</div></button>
+    </div>
+    <div id="mainScene">
+        <div class="notifHeader">
+            <div class="notificationHeaderText">Notifications</div>
+            <div class="notifArea">
+               
+            </div>
+            <button id="logout" type="button">Logout</button>  
+        </div>
+        <div id="inProgress">
+            <button class="newPoster" type="button" id="showCreatePostArea">Post A New Event</button>
+            <div id="createPostArea">
+                <div class="infoHeader">Event Title:</div>
+                <input class="newPostbox" type="text" id="eventTitleInfo" val="" placeholder="Type your event title here....">
+                <div class="infoHeader">Event Details:</div>
+                <input class="newPostbox" type="text" id="eventDetailsInfo" val="" placeholder="Type your event details here....">
+                <div class="infoHeader">Event Date:</div>
+                <input class="newPostbox" type="date" id="eventDateInfo">
+                <button class="newPoster" type="button" id="newPost">Post Event</button>
+            </div>
+
+            <div id="posts"></div>
+        </div>
+    </div>
+
+    
     <!-- <div class="wholePost" id="wh${post.postid}">
         <div class="eventTitle">Run-for-a-cause</div>
         <div class="eventInformation">
@@ -49,33 +89,5 @@
         </div>
     </div> -->
 
-    <div id="registerFront">
-        <p style="font-size: 22px; font-weight: bold;">Register</p>
-        <input type="text" id="rFirstName" val="" placeholder="First Name" style="font-size: 22px;">
-        <input type="text" id="rLastName" val="" placeholder="Last Name" style="font-size: 22px;">
-        <input type="text" id="rUserName" val="" placeholder="Username" style="font-size: 22px;">
-        <button class="important" type="button" id="createUser" style="font-size: 22px;">Create User</button>
-        <button id="loginer"><div id="registerJump" style="font-size: 22px;">or login by clicking here instead</div></button>
-    </div>
-
-    <div id="loginFront">
-        <p id="loginText">Login</p>
-        <input type="text" id="lUserName" val="" placeholder="Username" style="font-size: 22px;">
-        <button class="important" type="button" id="login" style="font-size: 22px;">Login</button>
-        <button id="registerer"><div id="registerJump" style="font-size: 22px;">or register by clicking here instead</div></button>
-    </div>
-
-    <div id="inProgress">
-        <button id="logout" type="button">Logout</button>
-        <div id="currPage">Current Page: 1</div>
-        <div class="welp">
-            <button class="prevnext" type="button" id="prevPage">Previous Page</button>
-            <button class="prevnext" type="button" id="nextPage">Next Page</button>
-        </div>
-        
-        <button class="newPoster" type="button" id="newPost">Create New Post And Click Here</button>
-        <input class="newPostbox" type="text" id="newPostText" val="" placeholder="Type your ideas here....">
-        <div id="posts"></div>
-    </div>
 </body>
 </html>

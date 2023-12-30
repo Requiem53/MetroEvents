@@ -1,20 +1,23 @@
 let currPage = 1;
 let posts = [];
 let userID
+let currUser
 let loginStatus
 
 $(document).ready(function(){
 
     $("#loginFront").show()
     $("#registerFront").hide()
-    $("#inProgress").hide()
+    $("#mainScene").hide()
     
+
+    $("#createPostArea").hide()
 
     $("#logout").click(function(){
         localStorage.clear();
         $("#loginFront").show()
         $("#registerFront").hide()
-        $("#inProgress").hide()
+        $("#mainScene").hide()
     });
 
     
@@ -51,13 +54,17 @@ $(document).ready(function(){
                 if(data.success == true){
                     data = JSON.stringify(data);
                     data = JSON.parse(data);
-                    console.log(data)
+                    console.log(data) 
+                    currUser = data.user
                     userID = data.user.uid
                     localStorage.setItem("currUser", JSON.stringify(data));
                     localStorage.setItem("loggedIn", "true");
                     alert("Welcome to Metro Events!")
                     $("#registerFront").hide()
-                    $("#inProgress").show()
+                    $("#mainScene").show()
+                    
+                    showRoleSpecific(data.user.role)
+
                     showPosts(posts);
                 }else{
                     alert(data.message)
@@ -85,14 +92,17 @@ $(document).ready(function(){
                     data = JSON.stringify(data);
                     data = JSON.parse(data);
                     console.log(data)
+                    currUser = data.user
                     userID = data.user.uid
                     localStorage.setItem("currUser", JSON.stringify(data));
                     localStorage.setItem("loggedIn", "true");
                     localStorage.setItem("currPage", currPage);
                     console.log(userID)
-                    // lastPage();
                     $("#loginFront").hide();
-                    $("#inProgress").show();
+                    $("#mainScene").show();
+
+                    showRoleSpecific(data.user.role)
+
                     showPosts(posts);
                 }
             },
@@ -104,24 +114,41 @@ $(document).ready(function(){
     });
 
     $("#newPost").click(function(){
-        const message = $("#newPostText").val();
+        const eventTitle = $("#eventTitleInfo").val();
+        const eventDetails = $("#eventDetailsInfo").val();
+        const eventDate = $("#eventDateInfo").val();
+        const user = currUser
+
+
+        console.log(user)
         $.ajax({
             type: "POST",
-            url: "http://hyeumine.com/forumNewPost.php",
+            url: "https://hyeumine.com/DL0wgqiJ/Luab/MetroEvents/scripts/createPost.php",
             data: {
-                id : userID,
-                post : message
+                eventname : eventTitle,
+                eventdetails: eventDetails,
+                eventdate : eventDate,
+                eventorganizer : user
             },
             success: (data) => {
-                data = JSON.parse(data);
-                console.log(data);
-                alert("Successfully posted! Refresh page to see post.");
+                if(data.success == true){
+                    data = JSON.stringify(data);
+                    data = JSON.parse(data);
+                    console.log(data);
+                    alert("Successfully posted! Refresh page to see post.");
+                }else{
+                    console.log(data)
+                }
             },    
             error: function(xhr, status, error) {
                 var err = eval("An error has occured" + "(" + xhr.responseText + ")");
                 alert(err.Message);
             }
         });
+    });
+
+    $("#showCreatePostArea").click(function(){
+        $("#createPostArea").toggle()
     });
 });
 
@@ -144,11 +171,9 @@ function showPosts(){
         }
     });
 
-    console.log(posts)
-
     $("#posts").html("");
     posts.forEach((post) => {
-        $("#posts").append(`
+        $("#posts").prepend(`
         <div class="wholePost" id="wh${post.postid}">
             <div class="eventTitle">${post.eventname}</div>
             <div class="eventInformation">
@@ -156,16 +181,16 @@ function showPosts(){
                 <div class="eventAuxi">
                     <div class="eventOrganizer">Event Organizer: ${post.eventorganizer.firstname} ${post.eventorganizer.lastname}</div>
                     <div class="eventDate">Event Date: ${post.eventdate}</div>
-                    <div class="postDate">Posted in: ${post.date}</div>
+                    <div class="postDate">Posted in: ${post.postdate}</div>
                 </div>
             </div>
             <div class="activityZone">
                 <div class="upvoteArea">
-                    <button class="activityButton" type="button" id="upvotePost">Upvote</button>
-                    <div class="upvotes">Upvotes: ${post.postvote[0]}</div>
+                    <button class="activityButton" type="button" id="upvotePost" onclick="upvotePost(${post.postid})">Upvote</button>
+                    <div class="upvotes">Upvotes: ${post.postvote}</div>
                 </div>
                 <div class="participantArea">
-                    <button class="activityButton" type="button" id="participatePost">Participate</button>
+                    <button class="activityButton" type="button" id="participatePost" onclick="participatePost(${post.postid})">Participate</button>
                     <div class="participants">Participants: ${Object.keys(post.participants).length}</div>
                 </div>
             </div>
@@ -181,6 +206,42 @@ function showPosts(){
         `);
     });
 }
+function participatePost(code){
+    $.get("https://hyeumine.com/DL0wgqiJ/Luab/MetroEvents/scripts/upvotePost.php",
+    {
+        postid : code,
+        userid : userID
+    },
+    function(data){
+        if(data.success == true){
+            alert("Successfully participated to event! Refresh page to see")
+            console.log(data)
+        }else{
+            alert(data.message)
+            console.log(data)
+        }
+    }
+);
+}
+
+function upvotePost(code){
+    $.get("https://hyeumine.com/DL0wgqiJ/Luab/MetroEvents/scripts/upvotePost.php",
+        {
+            postid : code,
+            userid : userID
+        },
+        function(data){
+            if(data.success == true){
+                alert("Successfully upvoted! Refresh page to see")
+                console.log(data)
+            }else{
+                alert(data.message)
+                console.log(data)
+            }
+        }
+    );
+}
+
 
 function replyPost(code){
     const replyCode = code;
@@ -248,3 +309,12 @@ function deleteReply(code){
         }
     });
 };
+
+function showRoleSpecific(role){
+    if (role === "organizer" || role === "admin"){
+        $("#showCreatePostArea").show()
+    }else{
+        $("#showCreatePostArea").hide()
+    }
+
+}
